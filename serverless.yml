@@ -67,7 +67,7 @@ functions:
 #    Check the event documentation for details
     events:
       - httpApi:
-          path: /authentication/{idUsuario}
+          path: /auth/{token}
           method: get
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}

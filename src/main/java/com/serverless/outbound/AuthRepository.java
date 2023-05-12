@@ -22,14 +22,14 @@ public class AuthRepository {
                 .build();
     }
 
-    public TokenDTO findByUsuario(String idUsuario) {
+    public TokenDTO findByToken(String token) {
         Map<String, String> attributesNames = new HashMap<>();
-        attributesNames.put("#idUsuario", "idUsuario");
+        attributesNames.put("#token", "token");
         Map<String, AttributeValue> attributeValues = new HashMap<>();
-        attributeValues.put(":idUsuario", new AttributeValue().withS(idUsuario));
-        QueryRequest query = new QueryRequest("AuthV4")
-                .withIndexName("usuario-index")
-                .withKeyConditionExpression("#idUsuario = :idUsuario")
+        attributeValues.put(":token", new AttributeValue().withS(token));
+        QueryRequest query = new QueryRequest("AuthV5")
+                .withIndexName("token-index")
+                .withKeyConditionExpression("#token = :token")
                 .withExpressionAttributeNames(attributesNames)
                 .withExpressionAttributeValues(attributeValues);
         QueryResult result = this.dynamoDB.query(query);

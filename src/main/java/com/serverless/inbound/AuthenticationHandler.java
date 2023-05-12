@@ -16,20 +16,19 @@ public class AuthenticationHandler implements RequestHandler<AwsProxyRequest, Ap
 
     @Override
     public ApiGatewayResponse handleRequest(AwsProxyRequest request, Context context) {
-        String idUsuario = request.getPathParameters().get("idUsuario");
-        Gson gson = new Gson();
-        log.info("Realizando autenticação do usuário: {}", idUsuario);
+        String token = request.getPathParameters().get("token");
+        log.info("Realizando autenticação com o token: {}", token);
         AuthRepository authRepository = new AuthRepository();
-        TokenDTO tokenDTO = authRepository.findByUsuario(idUsuario);
+        TokenDTO tokenDTO = authRepository.findByToken(token);
         if (tokenDTO == null) {
             log.info("Erro ao realizar a autenticação, faça login novamente");
             return ApiGatewayResponse.builder()
                     .setStatusCode(403)
                     .build();
         }
+        log.info("Autenticação realizada com sucesso");
         return ApiGatewayResponse.builder()
                 .setStatusCode(200)
-                .setRawBody(gson.toJson(tokenDTO))
                 .build();
     }
 }
